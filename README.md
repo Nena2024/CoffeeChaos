@@ -1,27 +1,27 @@
 Game title: Coffee Chaos
 “In this game, player needs to serve different coffee orders. The game is focusing on attention and accuracy.” 
 
-Platform:
+  - Platform:
  This game is designed for Windows 10 and above. 
 
-Gameplay:
- 1- Objective:
-“The goal is to taking more orders in a specific time.”
-2- Controls:
-Mouse
-3- Features:
-  -All art was created by me using Photoshop.
-  -Created related animations in Photoshop.
+ - Gameplay:
+   Objective:
+    “The goal is to taking more orders in a specific time.”
+ - Controls:
+    Mouse
+ - Features:
+    All art was created by me using Photoshop.
+    Created related animations in Photoshop.
   
 Development information:
  - Engine:
   “This game was developed in Unity using C# for scripting.”
 
  - Contributions:
-  I handled all programming, and UI design.
+   I handled all programming, and UI design.
 
 Issues: 
-  As this game is my final graduation assignment it is yet unfinished. The tutorial part is finished by now. The other parts are yet under programming.   
+   As this game is my final graduation assignment it is yet unfinished. The tutorial part is finished by now. The other parts are yet under programming.   
 
 Challenges: 
  - First-time Experience: This project marked my first time creating an animation using frame-by-frame images, introducing a steep learning curve. 
