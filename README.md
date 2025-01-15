@@ -3,10 +3,7 @@ Game title: Coffee Chaos
 
 Platform:
  This game is designed for Windows 10 and above. 
-Installation Steps: 
-Download the zip file.
-Extract it to a folder.
-Run Coffee Chaos.exe
+
 Gameplay:
  Objective:
 “The goal is to taking more orders in a specific time.”
