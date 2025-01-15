@@ -35,10 +35,10 @@ Effort:
  - Optimization: I diligently worked to find the best approach for efficiently working with these assets. 
 
 Source:
-"Due to my interest in mental games, particularly my experience with Lumosity, I was inspired to challenge myself by understanding the programming and creation behind such games. As a result, I chose 'Trouble Brewing' as my reference." 
-https://www.lumosity.com/en/brain-games/trouble-brewing/
+  - "Due to my interest in mental games, particularly my experience with Lumosity, I was inspired to challenge myself by understanding the programming and creation behind such games. As a result, I chose 'Trouble   Brewing' as my reference." 
+  - https://www.lumosity.com/en/brain-games/trouble-brewing/
 
 
 Contact Information:
-Email: Hengameh.ac.ir@gmail.com 
-LinkedIn: https://www.linkedin.com/in/hengamehmadadi/
+  - Email: Hengameh.ac.ir@gmail.com 
+  - LinkedIn: https://www.linkedin.com/in/hengamehmadadi/
