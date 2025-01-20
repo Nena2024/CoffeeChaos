@@ -7,19 +7,28 @@ using UnityEngine.SceneManagement;
 
 public class OrderManager : MonoBehaviour
 {
-    public Animator[] animators;
+
+    
+    
+
+    bool isServe = false;
+    public Animator Serve;
+    public GameObject ServeAnimate;
+
+    bool isFilling = false;
     public Animator cupAimator;
+    public GameObject oneSugarAnim, twoSugarAnim, oneCoffeeAnim, TwoCoffeeAnim;
+
     public TextMeshProUGUI text;
 
     private int sugarCount;
     private int coffeeCount;
 
     public GameObject emptyCupImage, oneSugarImage, twoSugarImage, oneCoffeeImage, twoCoffeeImage;
-    public GameObject oneSugarAnim, twoSugarAnim, oneCoffeeAnim, TwoCoffeeAnim;
-    public Button startCoffeeMakerBtnLeft, startCoffeeMakerBtnRight, sugarButton, coffeeButton;
+    public Button startCoffeeMakerBtnLeft, startCoffeeMakerBtnRight, sugarButton, coffeeButton, serveButton;
 
 
-
+    public Animator[] animators;
     private string[] orders = { "OneCF", "TwoCoffee", "OneSugar", "TwoSugar" };
 
 
@@ -39,6 +48,7 @@ public class OrderManager : MonoBehaviour
 
     }
 
+    
     void GenerateRandomOrder()
     {
         for (int i = 0; i < animators.Length; i++)
@@ -157,6 +167,7 @@ public class OrderManager : MonoBehaviour
             Debug.Log("Triggering one Sugar");
             oneSugarImage.SetActive(false);
             cupAimator.SetTrigger("SmallSugar");
+            isFilling = true;
 
 
 
@@ -165,9 +176,8 @@ public class OrderManager : MonoBehaviour
         {
             Debug.Log("Triggering Two Sugar");
             twoSugarImage.SetActive(false);
-
-
             cupAimator.SetTrigger("LargeSugar");
+            isFilling = true;
 
 
 
@@ -177,9 +187,8 @@ public class OrderManager : MonoBehaviour
         {
             Debug.Log("Triggering one Cofffee");
             oneCoffeeImage.SetActive(false);
-
-
             cupAimator.SetTrigger("SmallCoffee");
+            isFilling = true;
 
 
 
@@ -188,9 +197,8 @@ public class OrderManager : MonoBehaviour
         {
             Debug.Log("Triggering Two Coffee");
             twoCoffeeImage.SetActive(false);
-
-
             cupAimator.SetTrigger("LargeCoffee");
+            isFilling = true;
 
 
 
@@ -207,6 +215,22 @@ public class OrderManager : MonoBehaviour
     public void CompleteOrderAtPlace(int placeIndex)
     {
         GenerateNewOrderForPlace(placeIndex);
+    }
+    public void serveCup()
+    {
+        isServe = true;
+        emptyCupImage.gameObject.SetActive(false);
+        oneSugarImage.gameObject.SetActive(false);
+        twoSugarImage.gameObject.SetActive(false);
+        oneCoffeeImage.gameObject.SetActive(false);
+        twoCoffeeImage.gameObject.SetActive(false);
+        oneSugarAnim.SetActive(false);
+        twoSugarAnim.SetActive(false);
+        oneCoffeeAnim.SetActive(false);
+        TwoCoffeeAnim.SetActive(false);
+        ServeAnimate.SetActive(true);
+        Serve.Play("Serve", -1, 0f);
+        Debug.Log("cup is being served");
     }
 
     IEnumerator GameTimer()
@@ -233,6 +257,38 @@ public class OrderManager : MonoBehaviour
      ba taavajoh be animation e avali ke entekhab mikonam miad , ma baghi ejra nemishe , dafe bad check kon bebin moshkel kojas */
     void Update()
     {
+        if (isFilling && cupAimator.GetCurrentAnimatorStateInfo(0).IsName("SmallSugar") && cupAimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+        {
+
+            Debug.Log("small sugar cup filling is stopped!");
+            startCoffeeMakerBtnLeft.gameObject.SetActive(false);
+            serveButton.gameObject.SetActive(true);
+            isFilling = false;
+           
+        }
+        else if (isFilling && cupAimator.GetCurrentAnimatorStateInfo(0).IsName("LargeSugar") && cupAimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+        {
+            Debug.Log("large sugar cup filling is stopped!");
+            startCoffeeMakerBtnLeft.gameObject.SetActive(false);
+            serveButton.gameObject.SetActive(true);
+            isFilling = false;
+        }
+        else if (isFilling && cupAimator.GetCurrentAnimatorStateInfo(0).IsName("SmallCoffee") && cupAimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+        {
+            Debug.Log("small coffee cup filling is stopped!");
+            startCoffeeMakerBtnLeft.gameObject.SetActive(false);
+            serveButton.gameObject.SetActive(true);
+            isFilling = false;
+
+        }
+        else if (isFilling && cupAimator.GetCurrentAnimatorStateInfo(0).IsName("LargeCoffee") && cupAimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+        {
+            Debug.Log("Large coffee cup filling is stopped!");
+            startCoffeeMakerBtnLeft.gameObject.SetActive(false);
+            serveButton.gameObject.SetActive(true);
+            isFilling = false;
+        }
+
 
     }
 }
