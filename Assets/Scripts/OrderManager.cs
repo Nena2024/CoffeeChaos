@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class OrderManager : MonoBehaviour
 {
     public Animator[] animators;
-    // public Animator cupAimator;
+    public Animator cupAimator;
     public TextMeshProUGUI text;
 
     private int sugarCount;
@@ -23,7 +23,7 @@ public class OrderManager : MonoBehaviour
     private string[] orders = { "OneCF", "TwoCoffee", "OneSugar", "TwoSugar" };
 
 
-    private int[] currentorderIndices = new int[3];
+    private int[] currentorderIndices = new int[2];
     private int[] playerSelections = new int[2];
 
 
@@ -123,10 +123,10 @@ public class OrderManager : MonoBehaviour
     }
     public void StartOrder()
     {
-        animators[2].ResetTrigger("SmallSugar");
-        animators[2].ResetTrigger("LargeSugar");
-        animators[2].ResetTrigger("SmallCoffee");
-        animators[2].ResetTrigger("LargeCoffee");
+        cupAimator.ResetTrigger("SmallSugar");
+        cupAimator.ResetTrigger("LargeSugar");
+        cupAimator.ResetTrigger("SmallCoffee");
+        cupAimator.ResetTrigger("LargeCoffee");
 
 
         /*  switch (sugarCount)
@@ -155,9 +155,8 @@ public class OrderManager : MonoBehaviour
         if (sugarCount == 1)
         {
             Debug.Log("Triggering one Sugar");
-            oneSugarAnim.SetActive(true);
             oneSugarImage.SetActive(false);
-            animators[2].SetTrigger("SmallSugar");
+            cupAimator.SetTrigger("SmallSugar");
 
 
 
@@ -165,9 +164,10 @@ public class OrderManager : MonoBehaviour
         else if (sugarCount == 2)
         {
             Debug.Log("Triggering Two Sugar");
-            twoSugarAnim.SetActive(true);
             twoSugarImage.SetActive(false);
-            animators[2].SetTrigger("LargeSugar");
+
+
+            cupAimator.SetTrigger("LargeSugar");
 
 
 
@@ -176,9 +176,10 @@ public class OrderManager : MonoBehaviour
 
         {
             Debug.Log("Triggering one Cofffee");
-            oneCoffeeAnim.SetActive(true);
             oneCoffeeImage.SetActive(false);
-            animators[2].SetTrigger("SmallCoffee");
+
+
+            cupAimator.SetTrigger("SmallCoffee");
 
 
 
@@ -186,9 +187,10 @@ public class OrderManager : MonoBehaviour
         else if (coffeeCount == 2)
         {
             Debug.Log("Triggering Two Coffee");
-            TwoCoffeeAnim.SetActive(true);
             twoCoffeeImage.SetActive(false);
-            animators[2].SetTrigger("LargeCoffee");
+
+
+            cupAimator.SetTrigger("LargeCoffee");
 
 
 
