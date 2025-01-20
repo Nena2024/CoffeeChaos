@@ -205,7 +205,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6217764}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1911385680}
+        m_TargetAssemblyTypeName: OrderManager, Assembly-CSharp
+        m_MethodName: StartOrder
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &6217764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -417,7 +429,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1911385680}
         m_TargetAssemblyTypeName: OrderManager, Assembly-CSharp
-        m_MethodName: StartOrder
+        m_MethodName: AddCoffee
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3281,7 +3293,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 871335298}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1911385680}
+        m_TargetAssemblyTypeName: OrderManager, Assembly-CSharp
+        m_MethodName: AddSugar
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &871335298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5522,11 +5546,11 @@ MonoBehaviour:
   - {fileID: 371834030}
   - {fileID: 96748699}
   text: {fileID: 167150519}
-  emptyCupImage: {fileID: 0}
-  oneSugarImage: {fileID: 0}
-  twoSugarImage: {fileID: 0}
-  oneCoffeeImage: {fileID: 0}
-  twoCoffeeImage: {fileID: 0}
+  emptyCupImage: {fileID: 980084852}
+  oneSugarImage: {fileID: 407456550}
+  twoSugarImage: {fileID: 7983370}
+  oneCoffeeImage: {fileID: 1159022784}
+  twoCoffeeImage: {fileID: 1427038698}
   oneSugarAnim: {fileID: 2117250101}
   twoSugarAnim: {fileID: 523177884}
   oneCoffeeAnim: {fileID: 96748696}
