@@ -21,7 +21,7 @@ Development information:
    I handled all programming, and UI design.
 
 Issues: 
-   As this game is my final graduation assignment it is yet unfinished. The tutorial part is finished by now. The other parts are yet under programming.   
+   As this game is my final graduation assignment, it is yet unfinished. The tuotorial part is finished by now. The level one part is done by half and I continue programming it .    
 
 Challenges: 
  - First-time Experience: This project marked my first time creating an animation using frame-by-frame images, introducing a steep learning curve. 
