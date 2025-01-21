@@ -12,6 +12,7 @@ public class OrderManager : MonoBehaviour
 
 
     bool isServe = false;
+    bool serveFinished = false;
     public Animator Serve;
     public GameObject ServeAnimate;
 
@@ -170,7 +171,6 @@ public class OrderManager : MonoBehaviour
             isFilling = true;
 
 
-
         }
         else if (sugarCount == 2)
         {
@@ -178,8 +178,6 @@ public class OrderManager : MonoBehaviour
             twoSugarImage.SetActive(false);
             cupAimator.SetTrigger("LargeSugar");
             isFilling = true;
-
-
 
         }
         else if (coffeeCount == 1)
@@ -189,9 +187,6 @@ public class OrderManager : MonoBehaviour
             oneCoffeeImage.SetActive(false);
             cupAimator.SetTrigger("SmallCoffee");
             isFilling = true;
-
-
-
         }
         else if (coffeeCount == 2)
         {
@@ -200,95 +195,104 @@ public class OrderManager : MonoBehaviour
             cupAimator.SetTrigger("LargeCoffee");
             isFilling = true;
 
-
-
         }
-        ResetOrder();
-    }
+            ResetOrder();
+        }
 
-    public void ResetOrder()
-    {
-        sugarCount = 0;
-        coffeeCount = 0;
-        UpdateCupDisplay();
-    }
-    public void CompleteOrderAtPlace(int placeIndex)
-    {
-        GenerateNewOrderForPlace(placeIndex);
-    }
-    public void serveCup()
-    {
-        isServe = true;
-        emptyCupImage.gameObject.SetActive(false);
-        oneSugarImage.gameObject.SetActive(false);
-        twoSugarImage.gameObject.SetActive(false);
-        oneCoffeeImage.gameObject.SetActive(false);
-        twoCoffeeImage.gameObject.SetActive(false);
-        oneSugarAnim.SetActive(false);
-        twoSugarAnim.SetActive(false);
-        oneCoffeeAnim.SetActive(false);
-        TwoCoffeeAnim.SetActive(false);
-        ServeAnimate.SetActive(true);
-        Serve.Play("Serve", -1, 0f);
-        Debug.Log("cup is being served");
-    }
-
-    IEnumerator GameTimer()
-    {
-
-
-        while (gameTime > 0)
+        public void ResetOrder()
         {
-            gameTime -= Time.deltaTime;
-            int minutes = Mathf.FloorToInt(gameTime / 60);
-            int seconds = Mathf.FloorToInt(gameTime % 60);
-            string timeString = string.Format("{0:00}:{1:00}", minutes, seconds);
-            yield return null;
-
-            text.text = "Time: " + timeString.ToString();
-
+            sugarCount = 0;
+            coffeeCount = 0;
+            UpdateCupDisplay();
         }
-        gameRunning = false;
-        Debug.Log("Time's up!");
-    }
+        public void CompleteOrderAtPlace(int placeIndex)
+        {
+            GenerateNewOrderForPlace(placeIndex);
+        }
+        public void serveCup()
+        {
+            isServe = true;
+            emptyCupImage.gameObject.SetActive(false);
+            oneSugarImage.gameObject.SetActive(false);
+            twoSugarImage.gameObject.SetActive(false);
+            oneCoffeeImage.gameObject.SetActive(false);
+            twoCoffeeImage.gameObject.SetActive(false);
+            oneSugarAnim.SetActive(false);
+            twoSugarAnim.SetActive(false);
+            oneCoffeeAnim.SetActive(false);
+            TwoCoffeeAnim.SetActive(false);
+            ServeAnimate.SetActive(true);
+            Serve.Play("Serve", -1, 0f);
+            Debug.Log("cup is being served");
+        }
 
-
-    /* moshkel injast ke baraye animation ghesmati ke bayad livan por beshe anjam nemishe . error nadare  , bishtar bekhatere ineke avalin trigeri ke 
-     ba taavajoh be animation e avali ke entekhab mikonam miad , ma baghi ejra nemishe , dafe bad check kon bebin moshkel kojas */
-    void Update()
-    {
-        if (isFilling && cupAimator.GetCurrentAnimatorStateInfo(0).IsName("SmallSugar") && cupAimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+        IEnumerator GameTimer()
         {
 
-            Debug.Log("small sugar cup filling is stopped!");
-            startCoffeeMakerBtnLeft.gameObject.SetActive(false);
-            serveButton.gameObject.SetActive(true);
-            isFilling = false;
 
+            while (gameTime > 0)
+            {
+                gameTime -= Time.deltaTime;
+                int minutes = Mathf.FloorToInt(gameTime / 60);
+                int seconds = Mathf.FloorToInt(gameTime % 60);
+                string timeString = string.Format("{0:00}:{1:00}", minutes, seconds);
+                yield return null;
+
+                text.text = "Time: " + timeString.ToString();
+
+            }
+            gameRunning = false;
+            Debug.Log("Time's up!");
         }
-        else if (isFilling && cupAimator.GetCurrentAnimatorStateInfo(0).IsName("LargeSugar") && cupAimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+
+
+        /* moshkel injast ke baraye animation ghesmati ke bayad livan por beshe anjam nemishe . error nadare  , bishtar bekhatere ineke avalin trigeri ke 
+         ba taavajoh be animation e avali ke entekhab mikonam miad , ma baghi ejra nemishe , dafe bad check kon bebin moshkel kojas */
+        void Update()
         {
-            Debug.Log("large sugar cup filling is stopped!");
-            startCoffeeMakerBtnLeft.gameObject.SetActive(false);
-            serveButton.gameObject.SetActive(true);
-            isFilling = false;
-        }
-        else if (isFilling && cupAimator.GetCurrentAnimatorStateInfo(0).IsName("SmallCoffee") && cupAimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
-        {
-            Debug.Log("small coffee cup filling is stopped!");
-            startCoffeeMakerBtnLeft.gameObject.SetActive(false);
-            serveButton.gameObject.SetActive(true);
-            isFilling = false;
+            if (isFilling && cupAimator.GetCurrentAnimatorStateInfo(0).IsName("SmallSugar") && cupAimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+            {
 
-        }
-        else if (isFilling && cupAimator.GetCurrentAnimatorStateInfo(0).IsName("LargeCoffee") && cupAimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
-        {
-            Debug.Log("Large coffee cup filling is stopped!");
-            startCoffeeMakerBtnLeft.gameObject.SetActive(false);
-            serveButton.gameObject.SetActive(true);
-            isFilling = false;
-        }
+                Debug.Log("small sugar cup filling is stopped!");
+                startCoffeeMakerBtnLeft.gameObject.SetActive(false);
+                serveButton.gameObject.SetActive(true);
+                isFilling = false;
+
+            }
+            else if (isFilling && cupAimator.GetCurrentAnimatorStateInfo(0).IsName("LargeSugar") && cupAimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+            {
+                Debug.Log("large sugar cup filling is stopped!");
+                startCoffeeMakerBtnLeft.gameObject.SetActive(false);
+                serveButton.gameObject.SetActive(true);
+                isFilling = false;
+            }
+            else if (isFilling && cupAimator.GetCurrentAnimatorStateInfo(0).IsName("SmallCoffee") && cupAimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+            {
+                Debug.Log("small coffee cup filling is stopped!");
+                startCoffeeMakerBtnLeft.gameObject.SetActive(false);
+                serveButton.gameObject.SetActive(true);
+                isFilling = false;
+
+            }
+            else if (isFilling && cupAimator.GetCurrentAnimatorStateInfo(0).IsName("LargeCoffee") && cupAimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+            {
+                Debug.Log("Large coffee cup filling is stopped!");
+                startCoffeeMakerBtnLeft.gameObject.SetActive(false);
+                serveButton.gameObject.SetActive(true);
+                isFilling = false;
+            }
+
+            if (isServe && Serve.GetCurrentAnimatorStateInfo(0).IsName("Serve") && Serve.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+            {
+                Debug.Log("Serve finished");
+                serveButton.gameObject.SetActive(false);
+                GenerateNewOrderForPlace(0);
+                ServeAnimate.SetActive(false);
+                serveFinished = true;
+                isServe = false;
 
 
+            }
+        }
     }
-}
+
