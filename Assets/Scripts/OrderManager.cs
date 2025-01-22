@@ -21,19 +21,21 @@ public class OrderManager : MonoBehaviour
     public GameObject oneSugarAnim, twoSugarAnim, oneCoffeeAnim, TwoCoffeeAnim;
 
     public TextMeshProUGUI text;
+    public TextMeshProUGUI scoreText;
 
     private int sugarCount;
     private int coffeeCount;
+    private int score = 0;
 
     public GameObject emptyCupImage, oneSugarImage, twoSugarImage, oneCoffeeImage, twoCoffeeImage;
     public Button startCoffeeMakerBtnLeft, startCoffeeMakerBtnRight, sugarButton, coffeeButton, serveButton;
 
-
+    private string randomOrder; 
     public Animator[] animators;
     private string[] orders = { "OneCF", "TwoCoffee", "OneSugar", "TwoSugar" };
 
 
-    private int[] currentorderIndices = new int[2];
+    private int[] currentorderIndices = new int[1];
     private int[] playerSelections = new int[2];
 
 
@@ -61,10 +63,10 @@ public class OrderManager : MonoBehaviour
 
     }
 
-    private void GenerateNewOrderForPlace(int placeIndex)
+    public  void GenerateNewOrderForPlace(int placeIndex)
     {
         currentorderIndices[placeIndex] = Random.Range(0, orders.Length);
-        string randomOrder = orders[currentorderIndices[placeIndex]];
+        randomOrder = orders[currentorderIndices[placeIndex]];
         PlayerOrderAnimation(animators[placeIndex], randomOrder);
 
     }
@@ -73,6 +75,7 @@ public class OrderManager : MonoBehaviour
     {
         switch (orderType)
         {
+           
             case "OneCF":
                 animator.SetTrigger("OneCF");
                 break;
@@ -87,6 +90,7 @@ public class OrderManager : MonoBehaviour
                 break;
 
         }
+        Debug.Log(orderType);
     }
 
     public void AddSugar()
@@ -221,6 +225,15 @@ public class OrderManager : MonoBehaviour
         Serve.Play("Serve", -1, 0f);
         Debug.Log("cup is being served");
     }
+    public void IsOrderMatched(string doneOrder)
+    {
+        if (doneOrder==randomOrder)
+        {
+            score += 500;
+            scoreText.text = "Score: " + score;
+            Debug.Log(scoreText.text);
+        }
+    }
 
     IEnumerator GameTimer()
     {
@@ -252,7 +265,10 @@ public class OrderManager : MonoBehaviour
             Debug.Log("small sugar cup filling is stopped!");
             startCoffeeMakerBtnLeft.gameObject.SetActive(false);
             serveButton.gameObject.SetActive(true);
+            IsOrderMatched("OneSugar");
+            
             isFilling = false;
+           
 
         }
         else if (isFilling && cupAimator.GetCurrentAnimatorStateInfo(0).IsName("LargeSugar") && cupAimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
@@ -260,14 +276,18 @@ public class OrderManager : MonoBehaviour
             Debug.Log("large sugar cup filling is stopped!");
             startCoffeeMakerBtnLeft.gameObject.SetActive(false);
             serveButton.gameObject.SetActive(true);
+            IsOrderMatched("TwoSugar");
             isFilling = false;
+           
         }
         else if (isFilling && cupAimator.GetCurrentAnimatorStateInfo(0).IsName("SmallCoffee") && cupAimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
         {
             Debug.Log("small coffee cup filling is stopped!");
             startCoffeeMakerBtnLeft.gameObject.SetActive(false);
             serveButton.gameObject.SetActive(true);
+            IsOrderMatched("OneCF");
             isFilling = false;
+           
 
         }
         else if (isFilling && cupAimator.GetCurrentAnimatorStateInfo(0).IsName("LargeCoffee") && cupAimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
@@ -275,7 +295,9 @@ public class OrderManager : MonoBehaviour
             Debug.Log("Large coffee cup filling is stopped!");
             startCoffeeMakerBtnLeft.gameObject.SetActive(false);
             serveButton.gameObject.SetActive(true);
+            IsOrderMatched("TwoCoffee");
             isFilling = false;
+            
         }
 
         if (isServe && Serve.GetCurrentAnimatorStateInfo(0).IsName("Serve") && Serve.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
