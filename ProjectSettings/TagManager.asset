@@ -3,12 +3,14 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - CupLeft
+  - CupRight
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - CupLayer
   - Water
   - UI
   - 
@@ -41,6 +43,6 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: New Layer 1
+  - name: Cup Layer
     uniqueID: 3598145447
     locked: 0
