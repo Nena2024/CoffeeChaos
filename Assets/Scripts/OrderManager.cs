@@ -153,7 +153,7 @@ public class OrderManager : MonoBehaviour
                 yield return new WaitUntil(() => orderOneComplete);
                 yield return new WaitForSeconds(orderDelay);
             }
-            else if (!alreadyHasOrderTwo)
+             if (!alreadyHasOrderTwo)
             {
                 Debug.Log("second order is  " + secondOrder + "already has order two " + alreadyHasOrderTwo);
                 secondOrderAnim.gameObject.SetActive(true);
@@ -188,6 +188,64 @@ public class OrderManager : MonoBehaviour
         secondOrder = true;
 
 
+
+    }
+
+    private void PlayerOrderAnimation(Animator animator, string orderType)
+    {
+        //secondOrderAnim.gameObject.SetActive(true);
+
+        switch (orderType)
+        {
+            case "OneCF":
+                animator.SetTrigger("OneCF");
+                break;
+            case "TwoCoffee":
+                animator.SetTrigger("TwoCoffee");
+                break;
+            case "OneSugar":
+                animator.SetTrigger("OneSugar");
+                break;
+            case "TwoSugar":
+                animator.SetTrigger("TwoSugar");
+                break;
+
+        }
+    }
+
+    private void PlayerOrderAnimationSecond(Animator animator, string orderType)
+    {
+
+        switch (orderType)
+        {
+            case "OneCF":
+                secondOrderAnim.SetTrigger("OneCoffeeR");
+                break;
+            case "TwoCoffee":
+                secondOrderAnim.SetTrigger("TwoCoffeeR");
+                break;
+            case "OneSugar":
+                secondOrderAnim.SetTrigger("OneSugarR");
+                break;
+            case "TwoSugar":
+                secondOrderAnim.SetTrigger("TwoSugarR");
+                break;
+
+        }
+    }
+    public void CompleteOrder(string orderNumber)
+    {
+        if (orderNumber == "One")
+        {
+            orderOneComplete = true;
+            Debug.Log("Order one completed!");
+
+        }
+        else if (orderNumber == "Two")
+        {
+            orderTwoComplete = true;
+            Debug.Log("Order Two completed!");
+        }
 
     }
 
@@ -337,48 +395,7 @@ public class OrderManager : MonoBehaviour
 
 
 
-    private void PlayerOrderAnimation(Animator animator, string orderType)
-    {
-        //secondOrderAnim.gameObject.SetActive(true);
-
-        switch (orderType)
-        {
-            case "OneCF":
-                animator.SetTrigger("OneCF");
-                break;
-            case "TwoCoffee":
-                animator.SetTrigger("TwoCoffee");
-                break;
-            case "OneSugar":
-                animator.SetTrigger("OneSugar");
-                break;
-            case "TwoSugar":
-                animator.SetTrigger("TwoSugar");
-                break;
-
-        }
-    }
-
-    private void PlayerOrderAnimationSecond(Animator animator, string orderType)
-    {
-
-        switch (orderType)
-        {
-            case "OneCF":
-                secondOrderAnim.SetTrigger("OneCoffeeR");
-                break;
-            case "TwoCoffee":
-                secondOrderAnim.SetTrigger("TwoCoffeeR");
-                break;
-            case "OneSugar":
-                secondOrderAnim.SetTrigger("OneSugarR");
-                break;
-            case "TwoSugar":
-                secondOrderAnim.SetTrigger("TwoSugarR");
-                break;
-
-        }
-    }
+   
 
     public void AddSugar()
     {
@@ -805,21 +822,7 @@ public class OrderManager : MonoBehaviour
 
 
 
-    public void CompleteOrder(string orderNumber)
-    {
-        if (orderNumber == "One")
-        {
-            orderOneComplete = true;
-            Debug.Log("Order one completed!");
-
-        }
-        else if (orderNumber == "Two")
-        {
-            orderTwoComplete = true;
-            Debug.Log("Order Two completed!");
-        }
-
-    }
+    
 
     void SelectCup(bool isLeft)
     {
