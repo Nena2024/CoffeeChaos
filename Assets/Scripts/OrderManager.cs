@@ -28,6 +28,8 @@ public class OrderManager : MonoBehaviour
     bool coffeeAlreadyAdded = false;
     bool SugarOnRightAlreadyAdded = false;
     bool CoffeeOnRightAlreadyAdded = false;
+    bool serveOneOrTwo = false;
+    
 
     bool leftCupCompleted = true;
     bool rightCupCompleted = true;
@@ -327,7 +329,7 @@ public class OrderManager : MonoBehaviour
         {
             Debug.Log("Serve finished");
             serveButton.gameObject.SetActive(false);
-            GenerateRandomOrderForPlaceOne();
+            whichPlaceIsDone();
             ServeAnimate.SetActive(false);
             serveFinished = true;
             isServe = false;
@@ -379,7 +381,8 @@ public class OrderManager : MonoBehaviour
         {
             Debug.Log("Serve on the Rightside's finished");
             serveButtonRightside.gameObject.SetActive(false);
-            GenerateRandomOrderForPlaceOne();
+
+            whichPlaceIsDone();
             serveAnimateRightside.SetActive(false);
             serveRightsideFinished = true;
             isServeRightside = false;
@@ -482,6 +485,17 @@ public class OrderManager : MonoBehaviour
         }
 
 
+    }
+    public void whichPlaceIsDone()
+    {
+        if(isServe)
+        {
+            GenerateRandomOrderForPlaceOne();
+        }
+        else if (isServeRightside)
+        {
+            GenerateRandomOrderForPlaceTwo();
+        }
     }
     public bool LeftOrRightPlace()
     {
@@ -799,7 +813,7 @@ public class OrderManager : MonoBehaviour
 
 
     }
-
+    
     public void IsOrderMatched(string doneOrder)
     {
         if (doneOrder == randomOrder || doneOrder == randomOrderTwo)
