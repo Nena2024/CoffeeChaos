@@ -53,6 +53,9 @@ public class OrderManager : MonoBehaviour
     public Animator serveRightside;
     public GameObject serveAnimateRightside;
 
+    public Animator TimeUp;
+    public GameObject timeUpAnimate;
+
 
     public Animator cupAimator;
     public GameObject oneSugarAnim, twoSugarAnim, oneCoffeeAnim, TwoCoffeeAnim;
@@ -110,6 +113,7 @@ public class OrderManager : MonoBehaviour
 
         StartCoroutine(GameTimer());
         StartCoroutine(ShowOrders());
+       // StartCoroutine(WaitForAnimation());
         //  StartCoroutine(DelayforNextOrder());
 
 
@@ -129,6 +133,9 @@ public class OrderManager : MonoBehaviour
 
         }
         gameRunning = false;
+        timeUpAnimate.SetActive(true);
+        TimeUp.Play("TimeUp", -1, 0f);
+         
         Debug.Log("Time's up!");
     }
 
@@ -143,7 +150,15 @@ public class OrderManager : MonoBehaviour
          }
 
      }*/
+   
 
+   /* IEnumerator WaitForAnimation()
+    {
+        AnimatorStateInfo anim = TimeUp.GetCurrentAnimatorStateInfo(0);
+        yield return new WaitForSeconds(anim.length);
+        SceneManager.LoadScene(1);
+
+    }*/
     IEnumerator ShowOrders()
     {
         while (true)
