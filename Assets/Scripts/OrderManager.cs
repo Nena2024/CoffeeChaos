@@ -20,6 +20,8 @@ public class OrderManager : MonoBehaviour
     bool secondOrder = false;
     bool orderOneComplete = false;
     bool orderTwoComplete = false;
+
+    bool isPaused = false;
     bool firstPlaceIsEmpty = true;
     bool secondPlaceIsEmpty = false;
     bool leftImagesActive = false;
@@ -47,6 +49,8 @@ public class OrderManager : MonoBehaviour
 
     bool orderComplete = false;
 
+    public static OrderManager Instance;
+
     public Animator Serve;
     public GameObject ServeAnimate;
 
@@ -72,6 +76,9 @@ public class OrderManager : MonoBehaviour
     private int coffeeCountSnd = 0;
     private int startPoint = 1;
     private int score = 0;
+    private int saveSocre;
+
+    private Coroutine timerCoroutine;
 
     public GameObject emptyCupImage, oneSugarImage, twoSugarImage, oneCoffeeImage, twoCoffeeImage;
     public GameObject emptyCupImageR, oneSugarImageR, twoSugarImageR, oneCoffeeImageR, twoCoffeeImageR;
@@ -96,25 +103,18 @@ public class OrderManager : MonoBehaviour
     private float gameTime = 120f; // two mins in seconds
     private float orderDelay = 1f; // 1 seconds for second order;
     private float nextCupApear = 5f;
+    private float saveTime;
+    private float timeLeft;
     private int currentOrderIndex = 0;
     private bool gameRunning = true;
 
+   
 
     void Start()
     {
-        /*if (firstOrder)
-        {
-            GenerateRandomOrderForPlaceOne();
-        }
-        else if (secondOrder)
-        {
-            GenerateRandomOrderForPlaceTwo();
-        }*/
-
+       
         StartCoroutine(GameTimer());
         StartCoroutine(ShowOrders());
-       // StartCoroutine(WaitForAnimation());
-        //  StartCoroutine(DelayforNextOrder());
 
 
     }
@@ -128,155 +128,35 @@ public class OrderManager : MonoBehaviour
             int seconds = Mathf.FloorToInt(gameTime % 60);
             string timeString = string.Format("{0:00}:{1:00}", minutes, seconds);
             yield return null;
-
             text.text = "Time: " + timeString.ToString();
 
         }
-        gameRunning = false;
-        timeUpAnimate.SetActive(true);
-        TimeUp.Play("TimeUp", -1, 0f);
-         
-        Debug.Log("Time's up!");
+            gameRunning = false;
+            timeUpAnimate.SetActive(true);
+            TimeUp.Play("TimeUp", -1, 0f);
+            Debug.Log("Time's up!");
+        
     }
-
-    /* IEnumerator DelayforNextOrder()
-     {
-
-
-         while (true)
-         {
-             yield return new WaitForSeconds(nextCupApear);
-
-         }
-
-     }*/
-   
-
-   /* IEnumerator WaitForAnimation()
-    {
-        AnimatorStateInfo anim = TimeUp.GetCurrentAnimatorStateInfo(0);
-        yield return new WaitForSeconds(anim.length);
-        SceneManager.LoadScene(1);
-
-    }*/
-    IEnumerator ShowOrders()
-    {
-        while (true)
-        {
-            if (!alreadyHasOrderOne)
-            {
-                Debug.Log("first order is " + firstOrder + "alreadyhasorder" + alreadyHasOrderOne);
-                GenerateRandomOrderForPlaceOne();
-                yield return new WaitUntil(() => orderOneComplete);
-                yield return new WaitForSeconds(orderDelay);
-            }
-             if (!alreadyHasOrderTwo)
-            {
-                Debug.Log("second order is  " + secondOrder + "already has order two " + alreadyHasOrderTwo);
-                secondOrderAnim.gameObject.SetActive(true);
-                GenerateRandomOrderForPlaceTwo();
-                yield return new WaitUntil(() => orderTwoComplete);
-                yield return new WaitForSeconds(orderDelay);
-            }
-
-
-        }
-
-    }
-    public void GenerateRandomOrderForPlaceOne()
-    {
-        int placeIndex = Random.Range(0, orders.Length);
-        randomOrder = orders[placeIndex];
-        Debug.Log("randomOrder is " + randomOrder);
-        PlayerOrderAnimation(firstOrderAnim, randomOrder);
-        orderOneComplete = false;
-        firstOrder = true;
-
-
-
-    }
-    public void GenerateRandomOrderForPlaceTwo()
-    {
-        int placeIndex = Random.Range(0, ordersSecond.Length);
-        randomOrderTwo = ordersSecond[placeIndex];
-        Debug.Log("randomOrderSecond is " + randomOrderTwo);
-        PlayerOrderAnimationSecond(firstOrderAnim, randomOrderTwo);
-        orderTwoComplete = false;
-        secondOrder = true;
-
-
-
-    }
-
-    private void PlayerOrderAnimation(Animator animator, string orderType)
-    {
-        //secondOrderAnim.gameObject.SetActive(true);
-
-        switch (orderType)
-        {
-            case "OneCF":
-                animator.SetTrigger("OneCF");
-                break;
-            case "TwoCoffee":
-                animator.SetTrigger("TwoCoffee");
-                break;
-            case "OneSugar":
-                animator.SetTrigger("OneSugar");
-                break;
-            case "TwoSugar":
-                animator.SetTrigger("TwoSugar");
-                break;
-
-        }
-    }
-
-    private void PlayerOrderAnimationSecond(Animator animator, string orderType)
-    {
-
-        switch (orderType)
-        {
-            case "OneCF":
-                secondOrderAnim.SetTrigger("OneCoffeeR");
-                break;
-            case "TwoCoffee":
-                secondOrderAnim.SetTrigger("TwoCoffeeR");
-                break;
-            case "OneSugar":
-                secondOrderAnim.SetTrigger("OneSugarR");
-                break;
-            case "TwoSugar":
-                secondOrderAnim.SetTrigger("TwoSugarR");
-                break;
-
-        }
-    }
-    public void CompleteOrder(string orderNumber)
-    {
-        if (orderNumber == "One")
-        {
-            orderOneComplete = true;
-            Debug.Log("Order one completed!");
-
-        }
-        else if (orderNumber == "Two")
-        {
-            orderTwoComplete = true;
-            Debug.Log("Order Two completed!");
-        }
-
-    }
-
     void Update()
     {
-        
+        if (timeLeft > 0)
+        {
+            timeLeft -= Time.deltaTime;
+
+            int minutes = Mathf.FloorToInt(timeLeft / 60);
+            int seconds = Mathf.FloorToInt(timeLeft % 60);
+            string timeString = string.Format("{0:00}:{1:00}", minutes, seconds);
+            text.text = "Time: " + timeString.ToString();
+
+        }
 
         if (Input.GetMouseButtonDown(0))
 
         {
-            // Debug.Log("click detected ");
+
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-          //  LayerMask layer = LayerMask.GetMask("CupLayer");
-           
+
+
             RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
             if (hit.collider != null)
             {
@@ -348,7 +228,6 @@ public class OrderManager : MonoBehaviour
             ServeAnimate.SetActive(false);
             serveFinished = true;
             isServe = false;
-            // CompleteOrder("One");
             firstPlaceIsEmpty = true;
 
 
@@ -402,18 +281,114 @@ public class OrderManager : MonoBehaviour
             serveRightsideFinished = true;
             isServeRightside = false;
             secondPlaceIsEmpty = true;
-            // CompleteOrder("Two");
-
-
-
 
         }
     }
 
+    IEnumerator ShowOrders()
+    {
+        while (true)
+        {
+            if (!alreadyHasOrderOne)
+            {
+                Debug.Log("first order is " + firstOrder + "alreadyhasorder" + alreadyHasOrderOne);
+                GenerateRandomOrderForPlaceOne();
+                yield return new WaitUntil(() => orderOneComplete);
+                yield return new WaitForSeconds(orderDelay);
+            }
+             if (!alreadyHasOrderTwo)
+            {
+                Debug.Log("second order is  " + secondOrder + "already has order two " + alreadyHasOrderTwo);
+                secondOrderAnim.gameObject.SetActive(true);
+                GenerateRandomOrderForPlaceTwo();
+                yield return new WaitUntil(() => orderTwoComplete);
+                yield return new WaitForSeconds(orderDelay);
+            }
 
 
+        }
 
-   
+    }
+    public void GenerateRandomOrderForPlaceOne()
+    {
+        int placeIndex = Random.Range(0, orders.Length);
+        randomOrder = orders[placeIndex];
+        Debug.Log("randomOrder is " + randomOrder);
+        PlayerOrderAnimation(firstOrderAnim, randomOrder);
+        orderOneComplete = false;
+        firstOrder = true;
+
+    }
+    public void GenerateRandomOrderForPlaceTwo()
+    {
+        int placeIndex = Random.Range(0, ordersSecond.Length);
+        randomOrderTwo = ordersSecond[placeIndex];
+        Debug.Log("randomOrderSecond is " + randomOrderTwo);
+        PlayerOrderAnimationSecond(firstOrderAnim, randomOrderTwo);
+        orderTwoComplete = false;
+        secondOrder = true;
+
+    }
+
+    private void PlayerOrderAnimation(Animator animator, string orderType)
+    {
+        //secondOrderAnim.gameObject.SetActive(true);
+
+        switch (orderType)
+        {
+            case "OneCF":
+                animator.SetTrigger("OneCF");
+                break;
+            case "TwoCoffee":
+                animator.SetTrigger("TwoCoffee");
+                break;
+            case "OneSugar":
+                animator.SetTrigger("OneSugar");
+                break;
+            case "TwoSugar":
+                animator.SetTrigger("TwoSugar");
+                break;
+
+        }
+    }
+
+    private void PlayerOrderAnimationSecond(Animator animator, string orderType)
+    {
+
+        switch (orderType)
+        {
+            case "OneCF":
+                secondOrderAnim.SetTrigger("OneCoffeeR");
+                break;
+            case "TwoCoffee":
+                secondOrderAnim.SetTrigger("TwoCoffeeR");
+                break;
+            case "OneSugar":
+                secondOrderAnim.SetTrigger("OneSugarR");
+                break;
+            case "TwoSugar":
+                secondOrderAnim.SetTrigger("TwoSugarR");
+                break;
+
+        }
+    }
+    public void CompleteOrder(string orderNumber)
+    {
+        if (orderNumber == "One")
+        {
+            orderOneComplete = true;
+            Debug.Log("Order one completed!");
+
+        }
+        else if (orderNumber == "Two")
+        {
+            orderTwoComplete = true;
+            Debug.Log("Order Two completed!");
+        }
+
+    }
+
+
 
     public void AddSugar()
     {
@@ -605,7 +580,6 @@ public class OrderManager : MonoBehaviour
     }
 
 
-
     string GetAnimationTrigger(int sugarCount, int coffeeCount)
     {
         if (sugarCount == 1) return "OneSugar";
@@ -627,7 +601,7 @@ public class OrderManager : MonoBehaviour
             sugarCountSnd = 0;
             coffeeCountSnd = 0;
         }
-        //UpdateCupDisplay();
+       
     }
     public void StartOrder()
     {
@@ -778,7 +752,12 @@ public class OrderManager : MonoBehaviour
         coffeeCountSnd = 0;
     }
 
-
+  
+    public void PauseButton()
+    {
+        SceneManager.LoadScene(1);
+    }
+ 
     public void serveCup()
     {
         isServe = true;
@@ -848,10 +827,6 @@ public class OrderManager : MonoBehaviour
         }
     }
 
-
-
-
-    
 
     void SelectCup(bool isLeft)
     {
