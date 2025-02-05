@@ -16,8 +16,13 @@ public class ChangeScene : MonoBehaviour
     {
         
     }
+    IEnumerator Wait()// inam
+    {
+        yield return new WaitForSeconds(4f);
+    }
     public void SceneChange()
     {
-        SceneManager.LoadScene(3);
+        StartCoroutine(Wait());// in taze ezafe shod 
+        SceneManager.LoadScene(1);
     }
 }

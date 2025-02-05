@@ -37,8 +37,10 @@ public class MenuHandler : MonoBehaviour
     {
         SceneManager.LoadScene(0);
     }
+    
     public void ResumeButton()
     {
+        
         SceneManager.LoadScene(3);
     }
 }

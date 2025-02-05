@@ -31,6 +31,7 @@ public class OrderManager : MonoBehaviour
     bool SugarOnRightAlreadyAdded = false;
     bool CoffeeOnRightAlreadyAdded = false;
     bool serveOneOrTwo = false;
+    bool isScoreShowed = false;
     
 
     bool leftCupCompleted = true;
@@ -59,6 +60,9 @@ public class OrderManager : MonoBehaviour
 
     public Animator TimeUp;
     public GameObject timeUpAnimate;
+
+    public Animator ShowScore;
+    public GameObject showScoreAnimate; 
 
 
     public Animator cupAimator;
@@ -108,15 +112,20 @@ public class OrderManager : MonoBehaviour
     private int currentOrderIndex = 0;
     private bool gameRunning = true;
 
-   
+   // alan jae ke kar nemikone bade animation e akhar stop 4 sanie kar nemikone   
 
     void Start()
     {
        
         StartCoroutine(GameTimer());
         StartCoroutine(ShowOrders());
+       
 
+    }
+    IEnumerator Wait()// in taze ezafe shod 
 
+    {
+        yield return new WaitForSeconds(4f);
     }
     IEnumerator GameTimer()
     {
@@ -134,7 +143,9 @@ public class OrderManager : MonoBehaviour
             gameRunning = false;
             timeUpAnimate.SetActive(true);
             TimeUp.Play("TimeUp", -1, 0f);
-            Debug.Log("Time's up!");
+            isScoreShowed = true;
+        
+        Debug.Log("Time's up!");
         
     }
     void Update()
@@ -182,7 +193,15 @@ public class OrderManager : MonoBehaviour
 
 
         }
+        if ( isScoreShowed && TimeUp.GetCurrentAnimatorStateInfo(0).IsName("TimeUp") && TimeUp.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+        {
+            Debug.Log("here");
+            isScoreShowed = false;
+            timeUpAnimate.gameObject.SetActive(false);
+            showScoreAnimate.gameObject.SetActive(true);
+            StartCoroutine(Wait());// inja taze ezafe shod 
 
+        }
 
         if (isFilling && cupAimator.GetCurrentAnimatorStateInfo(0).IsName("SmallSugar") && cupAimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
         {
@@ -309,6 +328,7 @@ public class OrderManager : MonoBehaviour
         }
 
     }
+    
     public void GenerateRandomOrderForPlaceOne()
     {
         int placeIndex = Random.Range(0, orders.Length);
