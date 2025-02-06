@@ -13,7 +13,7 @@ TagManager:
   - CupLayer
   - Water
   - UI
-  - 
+  - TotalPoint
   - 
   - 
   - 
@@ -45,4 +45,7 @@ TagManager:
     locked: 0
   - name: Cup Layer
     uniqueID: 3598145447
+    locked: 0
+  - name: TotalPoint
+    uniqueID: 1712168191
     locked: 0
