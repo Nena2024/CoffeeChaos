@@ -31,7 +31,7 @@ public class OrderManager : MonoBehaviour
     bool SugarOnRightAlreadyAdded = false;
     bool CoffeeOnRightAlreadyAdded = false;
     bool serveOneOrTwo = false;
-    bool isScoreShowed = false;
+    bool timeUpMessageShowed = false;
     
 
     bool leftCupCompleted = true;
@@ -104,7 +104,7 @@ public class OrderManager : MonoBehaviour
     string randomOrderTwo;
 
 
-    private float gameTime = 120f; // two mins in seconds
+    private float gameTime = 4f; // two mins in seconds
     private float orderDelay = 1f; // 1 seconds for second order;
     private float nextCupApear = 5f;
     private float saveTime;
@@ -122,10 +122,13 @@ public class OrderManager : MonoBehaviour
        
 
     }
-    IEnumerator Wait()// in taze ezafe shod 
+    IEnumerator WaitSeconds()// in taze ezafe shod 
 
     {
+        Debug.Log("came to wait");
         yield return new WaitForSeconds(4f);
+        timeUpMessageShowed = true;
+
     }
     IEnumerator GameTimer()
     {
@@ -138,12 +141,13 @@ public class OrderManager : MonoBehaviour
             string timeString = string.Format("{0:00}:{1:00}", minutes, seconds);
             yield return null;
             text.text = "Time: " + timeString.ToString();
+          
 
         }
             gameRunning = false;
-            timeUpAnimate.SetActive(true);
-            TimeUp.Play("TimeUp", -1, 0f);
-            isScoreShowed = true;
+            timeUp();
+            
+           
         
         Debug.Log("Time's up!");
         
@@ -193,13 +197,13 @@ public class OrderManager : MonoBehaviour
 
 
         }
-        if ( isScoreShowed && TimeUp.GetCurrentAnimatorStateInfo(0).IsName("TimeUp") && TimeUp.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+
+        
+        if ( timeUpMessageShowed && TimeUp.GetCurrentAnimatorStateInfo(0).IsName("TimeUp") && TimeUp.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
         {
-            Debug.Log("here");
-            isScoreShowed = false;
-            timeUpAnimate.gameObject.SetActive(false);
-            showScoreAnimate.gameObject.SetActive(true);
-            StartCoroutine(Wait());// inja taze ezafe shod 
+            timeUpMessageShowed = false;
+            LastMessage();
+           
 
         }
 
@@ -328,7 +332,22 @@ public class OrderManager : MonoBehaviour
         }
 
     }
-    
+    public void timeUp()
+    {
+        timeUpAnimate.SetActive(true);
+        TimeUp.Play("TimeUp");
+        StartCoroutine(WaitSeconds());
+        
+        
+       
+          
+    }
+   public void LastMessage()
+    {
+        timeUpAnimate.SetActive(false);
+        showScoreAnimate.gameObject.SetActive(true);
+        ShowScore.Play("ShowScore");
+    }
     public void GenerateRandomOrderForPlaceOne()
     {
         int placeIndex = Random.Range(0, orders.Length);
