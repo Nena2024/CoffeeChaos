@@ -32,6 +32,7 @@ public class OrderManager : MonoBehaviour
     bool CoffeeOnRightAlreadyAdded = false;
     bool serveOneOrTwo = false;
     bool timeUpMessageShowed = false;
+    bool lastMessageDone = false;
     
 
     bool leftCupCompleted = true;
@@ -73,6 +74,7 @@ public class OrderManager : MonoBehaviour
 
     public TextMeshProUGUI text;
     public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI totalScore;
 
     private int sugarCount = 0;
     private int coffeeCount = 0;
@@ -104,7 +106,7 @@ public class OrderManager : MonoBehaviour
     string randomOrderTwo;
 
 
-    private float gameTime = 120f; // two mins in seconds
+    private float gameTime = 5f; // two mins in seconds
     private float orderDelay = 1f; // 1 seconds for second order;
     private float nextCupApear = 5f;
     private float saveTime;
@@ -126,7 +128,7 @@ public class OrderManager : MonoBehaviour
 
     {
         Debug.Log("came to wait");
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(3f);
         timeUpMessageShowed = true;
 
     }
@@ -197,14 +199,17 @@ public class OrderManager : MonoBehaviour
 
 
         }
+        if (lastMessageDone && ShowScore.GetCurrentAnimatorStateInfo(0).IsName("ShowScore") && ShowScore.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+        {
+            ShowFinalScore();
 
-        
+        }
+
         if ( timeUpMessageShowed && TimeUp.GetCurrentAnimatorStateInfo(0).IsName("TimeUp") && TimeUp.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
         {
             timeUpMessageShowed = false;
             LastMessage();
-           
-
+        
         }
 
         if (isFilling && cupAimator.GetCurrentAnimatorStateInfo(0).IsName("SmallSugar") && cupAimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
@@ -347,6 +352,14 @@ public class OrderManager : MonoBehaviour
         timeUpAnimate.SetActive(false);
         showScoreAnimate.gameObject.SetActive(true);
         ShowScore.Play("ShowScore");
+        lastMessageDone = true;
+        
+    }
+    public void ShowFinalScore()
+    {
+        lastMessageDone = false;
+        StartCoroutine(WaitSeconds());
+        totalScore.text = score.ToString();
     }
     public void GenerateRandomOrderForPlaceOne()
     {
