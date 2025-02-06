@@ -106,7 +106,7 @@ public class OrderManager : MonoBehaviour
     string randomOrderTwo;
 
 
-    private float gameTime = 120f; // two mins in seconds
+    private float gameTime = 10f; // two mins in seconds
     private float orderDelay = 1f; // 1 seconds for second order;
     private float nextCupApear = 5f;
     private float saveTime;
