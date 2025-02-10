@@ -166,25 +166,25 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: TwoCoffee
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: OneSugar
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: TwoSugar
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -238,7 +238,7 @@ AnimatorStateMachine:
     m_Position: {x: 374.00293, y: -213.08807, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6031461246380778977}
-    m_Position: {x: 331.1831, y: -4.3526306, z: 0}
+    m_Position: {x: 330, y: -10, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 9021262986432803882}
     m_Position: {x: 330, y: 70, z: 0}
