@@ -33,7 +33,7 @@ public class OrderManager : MonoBehaviour
     bool serveOneOrTwo = false;
     bool timeUpMessageShowed = false;
     bool lastMessageDone = false;
-    
+
 
     bool leftCupCompleted = true;
     bool rightCupCompleted = true;
@@ -63,7 +63,7 @@ public class OrderManager : MonoBehaviour
     public GameObject timeUpAnimate;
 
     public Animator ShowScore;
-    public GameObject showScoreAnimate; 
+    public GameObject showScoreAnimate;
 
 
     public Animator cupAimator;
@@ -106,7 +106,7 @@ public class OrderManager : MonoBehaviour
     string randomOrderTwo;
 
 
-    private float gameTime = 10f; // two mins in seconds
+    private float gameTime = 120f; // two mins in seconds
     private float orderDelay = 1f; // 1 seconds for second order;
     private float nextCupApear = 5f;
     private float saveTime;
@@ -114,14 +114,14 @@ public class OrderManager : MonoBehaviour
     private int currentOrderIndex = 0;
     private bool gameRunning = true;
 
-   // alan jae ke kar nemikone bade animation e akhar stop 4 sanie kar nemikone   
+    // alan jae ke kar nemikone bade animation e akhar stop 4 sanie kar nemikone   
 
     void Start()
     {
-       
+
         StartCoroutine(GameTimer());
         StartCoroutine(ShowOrders());
-       
+
 
     }
     IEnumerator WaitSeconds()// in taze ezafe shod 
@@ -143,16 +143,16 @@ public class OrderManager : MonoBehaviour
             string timeString = string.Format("{0:00}:{1:00}", minutes, seconds);
             yield return null;
             text.text = "Time: " + timeString.ToString();
-          
+
 
         }
-            gameRunning = false;
-            timeUp();
-            
-           
-        
+        gameRunning = false;
+        timeUp();
+
+
+
         Debug.Log("Time's up!");
-        
+
     }
     void Update()
     {
@@ -205,11 +205,11 @@ public class OrderManager : MonoBehaviour
 
         }
 
-        if ( timeUpMessageShowed && TimeUp.GetCurrentAnimatorStateInfo(0).IsName("TimeUp") && TimeUp.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+        if (timeUpMessageShowed && TimeUp.GetCurrentAnimatorStateInfo(0).IsName("TimeUp") && TimeUp.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
         {
             timeUpMessageShowed = false;
             LastMessage();
-        
+
         }
 
         if (isFilling && cupAimator.GetCurrentAnimatorStateInfo(0).IsName("SmallSugar") && cupAimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
@@ -324,7 +324,7 @@ public class OrderManager : MonoBehaviour
                 yield return new WaitUntil(() => orderOneComplete);
                 yield return new WaitForSeconds(orderDelay);
             }
-             if (!alreadyHasOrderTwo)
+            if (!alreadyHasOrderTwo)
             {
                 Debug.Log("second order is  " + secondOrder + "already has order two " + alreadyHasOrderTwo);
                 secondOrderAnim.gameObject.SetActive(true);
@@ -342,18 +342,18 @@ public class OrderManager : MonoBehaviour
         timeUpAnimate.SetActive(true);
         TimeUp.Play("TimeUp");
         StartCoroutine(WaitSeconds());
-        
-        
-       
-          
+
+
+
+
     }
-   public void LastMessage()
+    public void LastMessage()
     {
         timeUpAnimate.SetActive(false);
         showScoreAnimate.gameObject.SetActive(true);
         ShowScore.Play("ShowScore");
         lastMessageDone = true;
-        
+
     }
     public void ShowFinalScore()
     {
@@ -530,7 +530,7 @@ public class OrderManager : MonoBehaviour
     }
     public void whichPlaceIsDone()
     {
-        if(isServe)
+        if (isServe)
         {
             GenerateRandomOrderForPlaceOne();
         }
@@ -653,7 +653,7 @@ public class OrderManager : MonoBehaviour
             sugarCountSnd = 0;
             coffeeCountSnd = 0;
         }
-       
+
     }
     public void StartOrder()
     {
@@ -804,12 +804,12 @@ public class OrderManager : MonoBehaviour
         coffeeCountSnd = 0;
     }
 
-  
+
     public void PauseButton()
     {
         SceneManager.LoadScene(1);
     }
- 
+
     public void serveCup()
     {
         isServe = true;
@@ -859,7 +859,7 @@ public class OrderManager : MonoBehaviour
 
 
     }
-    
+
     public void IsOrderMatched(string doneOrder)
     {
         if (doneOrder == randomOrder || doneOrder == randomOrderTwo)
