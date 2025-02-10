@@ -22,7 +22,6 @@ public class OrderManager : MonoBehaviour
     bool orderTwoComplete = false;
     bool leftMatched = false;
     bool rightMatched = false;
-
     bool isPaused = false;
     bool firstPlaceIsEmpty = true;
     bool secondPlaceIsEmpty = false;
@@ -97,7 +96,7 @@ public class OrderManager : MonoBehaviour
     public Animator secondOrderAnim;
 
     private string[] orders = { "OneCF", "TwoCoffee", "OneSugar", "TwoSugar" };
-    private string[] ordersSecond = { "SmallCoffeeRight", "TwoCoffeeRight", "OneSugarRight", "TwoSugarRight" };
+    private string[] ordersSecond = { "OneCF", "TwoCoffee", "OneSugar", "TwoSugar" };
 
 
     private int[] currentorderIndices = new int[2];
@@ -121,8 +120,10 @@ public class OrderManager : MonoBehaviour
     void Start()
     {
 
+
+
         StartCoroutine(GameTimer());
-       // StartCoroutine(ShowOrders());
+        // StartCoroutine(ShowOrders());
 
         int placeIndex = Random.Range(0, orders.Length);
         randomOrder = orders[placeIndex];
@@ -137,6 +138,8 @@ public class OrderManager : MonoBehaviour
         PlayerOrderAnimationSecond(firstOrderAnim, randomOrderTwo);
         orderTwoComplete = false;
         secondOrder = true;
+
+
 
 
     }
@@ -235,9 +238,9 @@ public class OrderManager : MonoBehaviour
             startCoffeeMakerBtnLeft.gameObject.SetActive(false);
             serveButton.gameObject.SetActive(true);
             isFilling = false;
-            IsOrderMatched("OneSugar");
+             IsOrderMatched("OneSugar");
 
-                
+
         }
         else if (isFilling && cupAimator.GetCurrentAnimatorStateInfo(0).IsName("LargeSugar") && cupAimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
         {
@@ -245,7 +248,7 @@ public class OrderManager : MonoBehaviour
             startCoffeeMakerBtnLeft.gameObject.SetActive(false);
             serveButton.gameObject.SetActive(true);
             isFilling = false;
-            IsOrderMatched("TwoSugar");
+             IsOrderMatched("TwoSugar");
 
         }
         else if (isFilling && cupAimator.GetCurrentAnimatorStateInfo(0).IsName("SmallCoffee") && cupAimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
@@ -265,7 +268,6 @@ public class OrderManager : MonoBehaviour
             serveButton.gameObject.SetActive(true);
             isFilling = false;
             IsOrderMatched("TwoCoffee");
-
         }
 
         if (isServe && Serve.GetCurrentAnimatorStateInfo(0).IsName("Serve") && Serve.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
@@ -290,8 +292,8 @@ public class OrderManager : MonoBehaviour
             startCoffeeMakerBtnRight.gameObject.SetActive(false);
             serveButtonRightside.gameObject.SetActive(true);
             isFillingRightside = false;
-            IsOrderMatchedSecond("OneSugarRight");
-            
+            IsOrderMatchedSecond("OneSugar");
+
         }
         else if (isFillingRightside && cupAnimatorRight.GetCurrentAnimatorStateInfo(0).IsName("LargeSugar") && cupAnimatorRight.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
         {
@@ -299,7 +301,7 @@ public class OrderManager : MonoBehaviour
             startCoffeeMakerBtnRight.gameObject.SetActive(false);
             serveButtonRightside.gameObject.SetActive(true);
             isFillingRightside = false;
-            IsOrderMatchedSecond("TwoSugarRight");
+            IsOrderMatchedSecond("TwoSugar");
         }
         else if (isFillingRightside && cupAnimatorRight.GetCurrentAnimatorStateInfo(0).IsName("SmallCoffee") && cupAnimatorRight.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
         {
@@ -307,7 +309,7 @@ public class OrderManager : MonoBehaviour
             startCoffeeMakerBtnRight.gameObject.SetActive(false);
             serveButtonRightside.gameObject.SetActive(true);
             isFillingRightside = false;
-            IsOrderMatchedSecond("SmallCoffeeRight");
+            IsOrderMatchedSecond("OneCF");
 
         }
         else if (isFillingRightside && cupAnimatorRight.GetCurrentAnimatorStateInfo(0).IsName("LargeCoffee") && cupAnimatorRight.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
@@ -316,7 +318,7 @@ public class OrderManager : MonoBehaviour
             startCoffeeMakerBtnRight.gameObject.SetActive(false);
             serveButtonRightside.gameObject.SetActive(true);
             isFillingRightside = false;
-            IsOrderMatchedSecond("TwoCoffeeRight");
+            IsOrderMatchedSecond("TwoCoffee");
         }
 
         if (isServeRightside && serveRightside.GetCurrentAnimatorStateInfo(0).IsName("Serve") && serveRightside.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
@@ -341,7 +343,7 @@ public class OrderManager : MonoBehaviour
             {
                 Debug.Log("first order is " + firstOrder + "alreadyhasorder" + alreadyHasOrderOne);
                 GenerateRandomOrderForPlaceOne();
-                yield return new WaitUntil(() => (orderOneComplete&&leftMatched)||(orderTwoComplete&&rightMatched));
+                yield return new WaitUntil(() => orderOneComplete);
                 yield return new WaitForSeconds(orderDelay);
             }
             if (!alreadyHasOrderTwo)
@@ -349,7 +351,7 @@ public class OrderManager : MonoBehaviour
                 Debug.Log("second order is  " + secondOrder + "already has order two " + alreadyHasOrderTwo);
                 secondOrderAnim.gameObject.SetActive(true);
                 GenerateRandomOrderForPlaceTwo();
-                yield return new WaitUntil(() => (orderOneComplete && leftMatched) || (orderTwoComplete && rightMatched));
+                yield return new WaitUntil(() => orderTwoComplete);
                 yield return new WaitForSeconds(orderDelay);
             }
 
@@ -383,7 +385,6 @@ public class OrderManager : MonoBehaviour
     }
     public void GenerateRandomOrderForPlaceOne()
     {
-        alreadyHasOrderOne = true;
         int placeIndex = Random.Range(0, orders.Length);
         randomOrder = orders[placeIndex];
         Debug.Log("randomOrder is " + randomOrder);
@@ -394,7 +395,6 @@ public class OrderManager : MonoBehaviour
     }
     public void GenerateRandomOrderForPlaceTwo()
     {
-        alreadyHasOrderTwo = true;
         int placeIndex = Random.Range(0, ordersSecond.Length);
         randomOrderTwo = ordersSecond[placeIndex];
         Debug.Log("randomOrderSecond is " + randomOrderTwo);
@@ -431,18 +431,16 @@ public class OrderManager : MonoBehaviour
 
         switch (orderType)
         {
-          
-
-            case "SmallCoffeeRight":
+            case "OneCF":
                 secondOrderAnim.SetTrigger("OneCoffeeR");
                 break;
-            case "TwoCoffeeRight":
+            case "TwoCoffee":
                 secondOrderAnim.SetTrigger("TwoCoffeeR");
                 break;
-            case "OneSugarRight":
+            case "OneSugar":
                 secondOrderAnim.SetTrigger("OneSugarR");
                 break;
-            case "TwoSugarRight":
+            case "TwoSugar":
                 secondOrderAnim.SetTrigger("TwoSugarR");
                 break;
 
@@ -552,14 +550,15 @@ public class OrderManager : MonoBehaviour
 
 
     }
+
     public void whichPlaceIsDone()
     {
-        if (isServe&&rightMatched )
+        if (isServe && rightMatched)
         {
             rightMatched = false;
-            Debug.Log("is serveleft " + isServe +"and matched is right");
+            Debug.Log("is serveleft " + isServe + "and matched is right");
             GenerateRandomOrderForPlaceTwo();
-            
+
         }
         else if (isServeRightside && rightMatched)
         {
@@ -567,7 +566,7 @@ public class OrderManager : MonoBehaviour
             Debug.Log("is serve right" + isServeRightside + "and matched is right");
             GenerateRandomOrderForPlaceTwo();
         }
-        else  if (isServeRightside&&leftMatched)
+        else if (isServeRightside && leftMatched)
         {
             leftMatched = false;
             Debug.Log("is serve left" + isServe + "and matched is left");
@@ -579,7 +578,7 @@ public class OrderManager : MonoBehaviour
             Debug.Log("is serve " + isServeRightside + "and matched is left");
             GenerateRandomOrderForPlaceOne();
         }
-       
+
     }
     public bool LeftOrRightPlace()
     {
@@ -592,10 +591,13 @@ public class OrderManager : MonoBehaviour
     }
 
 
+   
+
+
     private void UpdateCupDisplay()
 
     {
-      
+        alreadyHasOrderOne = false;
 
         if (isLeftAcvtive)
         {
@@ -632,7 +634,7 @@ public class OrderManager : MonoBehaviour
     }
     private void UpdateCupDisplayScnd()
     {
-     
+        alreadyHasOrderTwo = false;
 
         if (isRightAcvtive)
         {
@@ -720,7 +722,7 @@ public class OrderManager : MonoBehaviour
 
             AnimatorStateInfo stateInfo = cupAimator.GetCurrentAnimatorStateInfo(0);
             Debug.Log($"Current State: { stateInfo.fullPathHash}");
-          //  IsOrderMatched("OneSugar");
+           // IsOrderMatched("OneSugar");
             isFilling = true;
 
 
@@ -734,7 +736,7 @@ public class OrderManager : MonoBehaviour
 
             AnimatorStateInfo stateInfo = cupAimator.GetCurrentAnimatorStateInfo(0);
             Debug.Log($"Current State: { stateInfo.fullPathHash}");
-          //  IsOrderMatched("TwoSugar");
+           // IsOrderMatched("TwoSugar");
             isFilling = true;
 
         }
@@ -749,7 +751,7 @@ public class OrderManager : MonoBehaviour
 
             AnimatorStateInfo stateInfo = cupAimator.GetCurrentAnimatorStateInfo(0);
             Debug.Log($"Current State: { stateInfo.fullPathHash}");
-           // IsOrderMatched("OneCF");
+          //  IsOrderMatched("OneCF");
             isFilling = true;
         }
         else if (coffeeCount == 2 && firstOrder)
@@ -761,7 +763,7 @@ public class OrderManager : MonoBehaviour
 
             AnimatorStateInfo stateInfo = cupAimator.GetCurrentAnimatorStateInfo(0);
             Debug.Log($"Current State: { stateInfo.fullPathHash}");
-           // IsOrderMatched("TwoCoffee");
+          //  IsOrderMatched("TwoCoffee");
             isFilling = true;
 
         }
@@ -781,7 +783,7 @@ public class OrderManager : MonoBehaviour
         cupAnimatorRight.gameObject.SetActive(true);
 
         ingerdientForbiddenScnd = true;
-       
+
 
         if (sugarCountSnd == 2)
         {
@@ -790,7 +792,7 @@ public class OrderManager : MonoBehaviour
             twoSugarImageR.SetActive(false);
             AnimatorStateInfo stateInfo = cupAnimatorRight.GetCurrentAnimatorStateInfo(0);
             Debug.Log($"Current State: { stateInfo.fullPathHash}");
-           // IsOrderMatchedSecond("TwoSugarRight");
+           // IsOrderMatchedSecond("TwoSugar");
             isFillingRightside = true;
 
         }
@@ -802,7 +804,7 @@ public class OrderManager : MonoBehaviour
             oneCoffeeImageR.SetActive(false);
             AnimatorStateInfo stateInfo = cupAnimatorRight.GetCurrentAnimatorStateInfo(0);
             Debug.Log($"Current State: { stateInfo.fullPathHash}");
-           // IsOrderMatchedSecond("SmallCoffeeRight");
+           // IsOrderMatchedSecond("OneCF");
             isFillingRightside = true;
         }
         else if (coffeeCountSnd == 2)
@@ -812,7 +814,7 @@ public class OrderManager : MonoBehaviour
             twoCoffeeImageR.SetActive(false);
             AnimatorStateInfo stateInfo = cupAnimatorRight.GetCurrentAnimatorStateInfo(0);
             Debug.Log($"Current State: { stateInfo.fullPathHash}");
-          //  IsOrderMatchedSecond("TwoCoffeeRight");
+          //  IsOrderMatchedSecond("TwoCoffee");
             isFillingRightside = true;
 
         }
@@ -823,7 +825,7 @@ public class OrderManager : MonoBehaviour
             oneSugarImageR.SetActive(false);
             AnimatorStateInfo stateInfo = cupAnimatorRight.GetCurrentAnimatorStateInfo(0);
             Debug.Log($"Current State: { stateInfo.fullPathHash}");
-           // IsOrderMatchedSecond("OneSugarRight");
+           // IsOrderMatchedSecond("OneSugar");
             isFillingRightside = true;
 
 
@@ -902,52 +904,56 @@ public class OrderManager : MonoBehaviour
 
     }
 
+
+
     public void IsOrderMatched(string doneOrder)
     {
-        
-           
-            if (doneOrder == randomOrder)
-            {
-                leftMatched = true;
-                score += 500;
-                scoreText.text = "Score: " + score;
-                Debug.Log(scoreText.text);
-            }
-            else if (doneOrder == randomOrderTwo)
-            {
-                rightMatched = true;
-               score += 500;
-                scoreText.text = "Score: " + score;
-                Debug.Log(scoreText.text);
 
-            }
-        
+
+        if (doneOrder == randomOrder)
+        {
+            leftMatched = true;
+            score += 500;
+            scoreText.text = "Score: " + score;
+            Debug.Log(scoreText.text);
+        }
+        else 
+        {
+            rightMatched = true;
+            score += 500;
+            scoreText.text = "Score: " + score;
+            Debug.Log(scoreText.text);
+
+        }
+
     }
     public void IsOrderMatchedSecond(string doneOrderSecond)
     {
-        
-            
-            if (doneOrderSecond == randomOrder)
-            {
-                leftMatched = true;
-                score += 500;
-                scoreText.text = "Score: " + score;
-                Debug.Log(scoreText.text);
 
-            }
 
-            else if (doneOrderSecond == randomOrderTwo)
-            {
-                rightMatched = true;
-                score += 500;
-                scoreText.text = "Score: " + score;
-                Debug.Log(scoreText.text);
+        if (doneOrderSecond == randomOrder)
+        {
+            leftMatched = true;
+            score += 500;
+            scoreText.text = "Score: " + score;
+            Debug.Log(scoreText.text);
 
-            }
-                
-            
-        
+        }
+
+        else 
+        {
+            rightMatched = true;
+            score += 500;
+            scoreText.text = "Score: " + score;
+            Debug.Log(scoreText.text);
+
+        }
+
+
+
     }
+
+
 
 
     void SelectCup(bool isLeft)
