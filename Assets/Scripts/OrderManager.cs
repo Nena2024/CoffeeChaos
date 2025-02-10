@@ -391,15 +391,15 @@ public class OrderManager : MonoBehaviour
         if (!isLeftAcvtive)
         {
             PlayerOrderAnimation(firstOrderAnim, randomOrder);
-           // orderOneComplete = false;
-           // firstOrder = true;
+            orderOneComplete = false;
+            firstOrder = true;
         }
         
         else if (!isRightAcvtive)
         {
             PlayerOrderAnimationSecond(secondOrderAnim, randomOrderTwo);
-          //  orderTwoComplete = false;
-           // firstOrder = true;
+            orderTwoComplete = false;
+            firstOrder = true;
         }
         
        
@@ -413,15 +413,15 @@ public class OrderManager : MonoBehaviour
         if (!isRightAcvtive)
         {
             PlayerOrderAnimationSecond(secondOrderAnim, randomOrderTwo);
-           // orderTwoComplete = false;
-           // secondOrder = true;
+            orderTwoComplete = false;
+            secondOrder = true;
         }
            
         else if (!isLeftAcvtive)
         {
             PlayerOrderAnimation(firstOrderAnim, randomOrder);
-           // orderOneComplete = false;
-           // secondOrder = true;
+            orderOneComplete = false;
+            secondOrder = true;
         }
             
 
