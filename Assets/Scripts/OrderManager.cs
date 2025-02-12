@@ -20,8 +20,8 @@ public class OrderManager : MonoBehaviour
     bool secondOrder = false;
     bool orderOneComplete = false;
     bool orderTwoComplete = false;
-    bool leftMatched = false;
-    bool rightMatched = false;
+    bool leftMatched, leftMatchedSnd = false;
+    bool rightMatched , rightMatchedSnd= false;
     bool isPaused = false;
     bool firstPlaceIsEmpty = true;
     bool secondPlaceIsEmpty = false;
@@ -585,13 +585,13 @@ public class OrderManager : MonoBehaviour
             GenerateRandomOrderForPlaceTwo();
 
         }
-        else if (isServeRightside && rightMatched)
+        else if (isServeRightside && rightMatchedSnd)
         {
             rightMatched = false;
             Debug.Log("is serve right" + isServeRightside + "and matched is right");
             GenerateRandomOrderForPlaceTwo();
         }
-        else if (isServeRightside && leftMatched)
+        else if (isServeRightside && leftMatchedSnd)
         {
             leftMatched = false;
             Debug.Log("is serve left" + isServeRightside + "and matched is left");
@@ -963,7 +963,7 @@ public class OrderManager : MonoBehaviour
 
         if (doneOrderSecond == randomOrder)
         {
-            leftMatched = true;
+            leftMatchedSnd = true;
             score += 500;
             scoreText.text = "Score: " + score;
             Debug.Log(scoreText.text);
@@ -972,7 +972,7 @@ public class OrderManager : MonoBehaviour
 
         else if(doneOrderSecond == randomOrderTwo)
         {
-            rightMatched = true;
+            rightMatchedSnd = true;
             score += 500;
             scoreText.text = "Score: " + score;
             Debug.Log(scoreText.text);
